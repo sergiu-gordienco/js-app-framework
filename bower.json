@@ -1,0 +1,24 @@
+{
+  "name"  : "app-framework",
+  "description" : "",
+  "dependencies": {
+    "url-controller": "https://github.com/sergiu-gordienco/url-controller.git"
+  },
+  "moduleType": [
+    "frontend",
+    "globals",
+    "node"
+  ],
+  "keywords": [],
+  "authors": [ "Sergiu Gordienco" ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "components",
+    "*.sublime-project",
+    "*.sublime-workspace",
+    "package.json"
+  ],
+  "private": true
+}

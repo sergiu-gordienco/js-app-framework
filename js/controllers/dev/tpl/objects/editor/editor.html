@@ -1,0 +1,502 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">	
+    <head>
+        <title>Code Syntax Highlight Editor Demo</title>         
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <style type="text/css" media="screen"> 
+			html, body	{ width:100%; height:100%; padding:5px; margin:0px; background-color: #ffffff; }
+			body { overflow:auto; }   
+        </style>		    
+        <script type="text/javascript" src="swfobject.js"></script>
+		<script type="text/javascript" language="javascript">
+		function loadContent( lang, textarea){
+			document.getElementById('ctlFlash').setParser(lang);
+			document.getElementById('ctlFlash').setText( document.getElementById(textarea).value );
+		}
+		</script>
+    </head>
+    <body>
+<hr />
+
+<h1>Open Source Web-base Code Syntax Highlight Editor Demo</h1>
+
+<div style="padding-bottom:2px">
+	<input type="button" value="ASP" onclick="loadContent('asp', 'txtASP')" disabled="disabled"/>
+	<input type="button" value="ASP.Net" onclick="loadContent('aspx', 'txtASPX')" disabled="disabled"/>
+	<input type="button" value="PHP" onclick="loadContent('php', 'txtPHP')" disabled="disabled"/>
+	<input type="button" value="JSP" onclick="loadContent('jsp', 'txtJSP')" disabled="disabled"/>
+	<input type="button" value="Java" onclick="loadContent('java', 'txtJava')" disabled="disabled"/>
+	<input type="button" value="C#" onclick="loadContent('csharp', 'txtCSharp')" disabled="disabled"/>
+	<input type="button" value="C++" onclick="loadContent('cpp', 'txtCPP')" disabled="disabled"/>
+	<input type="button" value="Javascript" onclick="loadContent('javascript', 'txtJS')" disabled="disabled"/>
+	<input type="button" value="SQL" onclick="loadContent('sql', 'txtSQL')" disabled="disabled"/>
+	<input type="button" value="XML" onclick="loadContent('xml', 'txtXML')" disabled="disabled"/>
+	<input type="button" value="CSS" onclick="loadContent('css', 'txtCSS')" disabled="disabled"/>
+	<input type="button" value="HTML" onclick="loadContent('html', 'txtHTML')" disabled="disabled"/>
+</div>	  
+<textarea id="txtASPX" style="display:none">&lt;%@ Page Title="&lt;%$ Resources: TitleText %&gt;" Language="C#" ContentType="text/html" ResponseEncoding="utf-8" %&gt;
+&lt;%@ Import Namespace="System.Data" %&gt;
+
+&lt;script language="C#" runat="server"&gt;
+// inline server code
+protected override void OnLoad(EventArgs e)
+{
+    base.OnLoad(e);
+    if( !Page.IsPostBack )  ctlGrid.DataBind();
+}
+&lt;/script&gt;
+
+&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+&lt;head&gt;
+    &lt;meta http-equiv="Content-Type" content="text/html; charset=utf-8" /&gt;
+    &lt;title&gt;Code Syntax Highlight Editor&lt;/title&gt;
+
+    &lt;style type="text/css"&gt;
+    	&lt;!--
+		body { background-color:#030; } /* inline style */
+		-->
+    &lt;/style&gt;
+
+    &lt;script type="text/javascript" language="javascript"&gt;
+    	&lt;![CDATA[    	
+		// inline javascript code and inline server code
+		alert( '&lt;%: this.Modal %&gt;' );
+		]]&gt;		
+	&lt;/script&gt;
+
+&lt;/head&gt;
+
+&lt;body&gt;
+	
+	&lt;div&gt;
+    	&lt;asp:DataGrid id="itemslist" AutoGenerateColumns="false" AlternatingItemStyle-BackColor="beige" BorderColor="black" BorderWidth="1" CellPadding="3" Font-Name="Verdana" Font-Size="10pt" HeaderStyle-BackColor="DarkGreen" HeaderStyle-Font-Bold="True" HeaderStyle-ForeColor="Beige" DataKeyField="Quantity" runat="server"&gt; 
+        &lt;Columns&gt;
+            &lt;asp:BoundColumn HeaderText="&lt;%$ Resources: ProductName %&gt;" DataField="Name" /&gt;
+            &lt;TemplateColumn HeaderText="Quantity"&gt;
+                &lt;ItemTemplate&gt;
+                    &lt;center&gt;
+                        &lt;asp:label id="ProductID" visible="false" runat="server" Text='&lt;%# DataBinder.Eval(Container.DataItem, "ProductID") %&gt;' /&gt;
+                        &lt;asp:label id="Bonus" visible="false" runat="server" Text='&lt;%# DataBinder.Eval(Container.DataItem, "Bonus") %&gt;' /&gt;
+                        &lt;asp:TextBox id="Quantity" runat="server" Columns="3" Text='&lt;%# DataBinder.Eval(Container.DataItem, "Quantity") %&gt;' width="40px" /&gt;
+                    &lt;/center&gt;
+                &lt;/ItemTemplate&gt;
+            &lt;/TemplateColumn&gt;
+		&lt;/Columns&gt;
+		&lt;/asp:DataGrid&gt;
+		&lt;input type="button" runat="server" value="Refresh" /&gt;
+    &lt;/div&gt;
+
+	&lt;%-- Server side comments --%&gt;
+	&lt;!-- Client side comments --&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</textarea>
+<textarea id="txtASP" style="display:none">&lt;%@ CodePage=65001 Language="VBScript"%&gt;
+&lt;% Option Explicit %&gt;
+&lt;!--#include file="_db.asp"--&gt;
+&lt;html&gt;
+&lt;head&gt;
+        &lt;meta http-equiv="Content-Type" content="text/html;charset=ISO-8859-9"&gt;
+        &lt;link rel="StyleSheet" HREF="surveyadmin.css" type="text/css"&gt;
+        &lt;title&gt;Survey&lt;/title&gt;
+&lt;/head&gt;
+
+&lt;body bgcolor="&lt;= BgColor&gt;"&gt;
+
+&lt;%
+
+        lAnketID = request("ID")
+
+        set conn = Server.CreateObject("ADODB.Connection")
+        Set rs = Server.CreateObject("ADODB.Recordset")
+        conn.open sConnAnket
+        set rs.ActiveConnection = conn
+        rs.CursorType = adOpenStatic
+
+        sSQL = "SELECT SurveyID, SurveyName, SurveyQuestion FROM Surveys WHERE SurveyID = " & lAnketID
+        rs.Open sSQL, , , adCmdTable
+
+        if rs.eof or rs.bof then
+                response.write "Error : Survey not found&lt;br&gt;Survey ID:" & lAnketID
+                response.end
+        end if
+
+        sSurveyName = rs("SurveyName")
+        sSurveyQuestion = rs("SurveyQuestion")
+
+        rs.close
+
+%&gt;
+&lt;form action="cast.asp?ID=&lt;%=lAnketID%&gt;" method="post"&gt;
+&lt;table border="0" cellspacing="1" cellpadding="2" width="100%" bgcolor="#ffe4b5"&gt;
+        &lt;tr&gt;
+                &lt;td class="header2"&gt;&lt;%=sSurveyQuestion%&gt;&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;%
+        sSQL = "SELECT OptionID, OptionText FROM Options WHERE SurveyID = " & lAnketID
+        rs.Open sSQL, , , adCmdTable
+
+        do while not rs.eof
+        %&gt;
+                &lt;tr&gt;
+                        &lt;td class="smalltext"&gt;
+                                &lt;input type="radio" name="optSecenek" value="&lt;%=rs("OptionID")%&gt;"&gt;
+                                &lt;%=rs("OptionText")%&gt;
+                        &lt;/td&gt;
+                &lt;/tr&gt;
+        &lt;%
+                rs.movenext
+        loop
+        rs.close
+        %&gt;
+        &lt;tr&gt;
+                &lt;td align=right&gt;&lt;input type="submit" name="cmdOyVer" value=" Send " class="flatbutton"&gt;
+                &lt;/td&gt;
+        &lt;/tr&gt;
+&lt;/table&gt;
+&lt;/form&gt;
+</textarea>
+
+<textarea id="txtPHP" style="display:none">&lt;?php
+// PHP_VERSION_ID is available as of PHP 5.2.7, if our 
+// version is lower than that, then emulate it
+if (PHP_VERSION_ID &lt; 50207) {
+    define('PHP_MAJOR_VERSION',   $version[0]);
+    define('PHP_MINOR_VERSION',   $version[1]);
+    define('PHP_RELEASE_VERSION', $version[2]);
+
+    // and so on, ...
+}
+?&gt;
+&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"&gt;
+&lt;html&gt;
+&lt;head&gt;
+	&lt;title&gt;Code Syntax Highlight Editor&lt;/title&gt;
+
+    &lt;style type="text/css"&gt;
+        body { background-color:#030; } /* inline style */
+    &lt;/style&gt;
+
+	&lt;script type="text/javascript" language="javascript"&gt;
+        // inline javascript and side side code
+		var ver = '&lt;?=$version[1]?&gt;';
+	&lt;/script&gt;
+&lt;/head&gt;
+&lt;body &gt;&lt;?=$version[0]?&gt;&lt;/pre&gt;&lt;/body&gt;
+&lt;/html&gt;
+</textarea>
+
+<textarea id="txtSQL" style="display:none">insert into table1(field1,field2) values(value1,value2)
+
+delete from table1 where Time between '2010-01-01' AND GETDATE()
+
+update table1 set field1=value1 where Time between '2010-01-01' AND GETDATE()
+
+select * from table1 where field1 like '%value1%' -- comments
+</textarea>
+
+<textarea id="txtCSharp" style="display:none">// Hello3.cs
+// arguments: A B C D
+using System;
+
+public class Hello3
+{
+   public static void Main(string[] args)
+   {
+      Console.WriteLine(@"Please say ""
+	  Hello, World""!");
+      Console.WriteLine("You entered the following \"{0}\" command line arguments:",
+         args.Length );
+      for (int i=0; i < args.Length; i++)
+      {
+         Console.WriteLine("{0}", args[i]); 
+      }
+   }
+}
+</textarea>
+
+<textarea id="txtJS" style="display:none">function onEditorLoaded(){
+	// call setText to load content into editor
+	document.getElementById('ctlFlash').setText( document.getElementById('txtASPX').value );
+	
+	// enable the buttons
+	var buttons = document.getElementsByTagName('input');
+	for( var i = 0; i &lt; buttons.length; i++){
+		if( buttons[i].type == 'button' )
+			buttons[i].disabled = false;
+	}
+}
+
+
+// initialize with parameters
+var flashvars = {
+	// indicate the parser, aspx / csharp / javascript / css / vbscript / html / xml / php / phpcode
+	parser: "aspx",
+	
+	// set the editor to read-only mode
+	readOnly: false,	
+
+	// the editor detects client installed fonts and use preferred fonts if installed.
+	// NOTE: the charactor '|' is required at the begin and end of the list
+	preferredFonts : "|Fixedsys|Fixedsys Excelsior 3.01|Fixedsys Excelsior 3.00|Courier New|Courier|",
+
+	// indicate the callback function so that we can load the content into editor once it is initialized.
+	onload : "onEditorLoaded"		
+};
+
+// flash player parameters, you can find more information at: http://code.google.com/p/swfobject/wiki/documentation
+var params = { menu: "false", /* wmode : "transparent", */allowscriptaccess : "always" };
+
+// define the id of the flash control, we need the id in javascript interaction 
+var attributes = { id: "ctlFlash", name: "ctlFlash" };
+
+// embed the flash with size, more information can be found at: http://code.google.com/p/swfobject/wiki/documentation
+swfobject.embedSWF("CodeHighlightEditor.swf?now=" + (new Date()).getTime(), "flashContent", "90%", "400", "10.0.0", "expressInstall.swf", flashvars, params, attributes);
+</textarea>
+
+<textarea id="txtJava" style="display:none">package hello;
+
+import java.io.* ;
+
+/**
+ * &lt;p&gt;
+ * A simple Hello World class, used to demonstrate some
+ * features of Java source highlighting.
+ * &lt;/p&gt;
+ * TODO: nothing, just to show an highlighted TODO or FIXME
+ *
+ * @author Lorenzo Bettini
+ * @version 2.0
+ */
+public class Hello {
+    int foo = 1998 ;
+    int hex_foo = 0xCAFEBABE;
+    boolean b = false;
+    Integer i = null ;
+    char c = '\'', d = 'n', e = '\\' ;
+    String xml = "&lt;tag attr=\"value\"&gt;Url&lt;/tag&gt;", foo2 = "\\" ;
+
+    public static void main( String args[] ) {
+        // just some greetings ;-)  /*
+        System.out.println( "Hello from java2html :-)" ) ;
+        System.out.println( "\tby Lorenzo Bettini" ) ;
+        System.out.println( "\thttp://www.lorenzobettini.it" ) ;
+        if (argc &gt; 0)
+            String param = argc[0];
+        //System.out.println( "bye bye... :-D" ) ; // see you soon
+    }
+}
+</textarea>
+
+<textarea id="txtJSP" style="display:none">&lt;%@ page isThreadSafe="false" autoFlush="true"%&gt;
+&lt;%@ page import="java.io.*,java.util.*" %&gt;
+&lt;jsp:useBean id="fop" scope="page" class="xsl.FOPBean" /&gt;
+&lt;jsp:setProperty name="fop" property="*"/&gt;
+
+&lt;%-- Server side comments --%&gt;
+&lt;%!
+    /**
+     * test for resource on the classpath
+     * @param resource
+     * @return true iff present
+     */
+    boolean resourceExists(String resource) {
+        boolean found;
+        InputStream instream=this.getClass().getResourceAsStream(resource);
+        found=instream!=null;
+        if(instream!=null) {
+            try {
+                instream.close();
+            } catch (IOException e) {
+            }
+        }
+        return found;
+    }
+%&gt;
+
+&lt;html&gt;
+		&lt;head&gt;
+			&lt;style type="text/css"&gt;
+				body { background:White; } /* inline css */
+			&lt;/style&gt;
+            
+            &lt;script language="javascript" type="text/javascript"&gt;
+			// inline javascript and server script
+			var a = '&lt;%= fop.getStyle()%&gt;';
+			&lt;/script&gt;
+        &lt;/head&gt;
+        &lt;body bgcolor="#FFFFFF" text="#000000"&gt;
+            &lt;a href="&lt;%=fop.getStyle()%&gt;"&gt;XSL-File&lt;/A&gt;&nbsp;&nbsp;&nbsp;
+            &lt;a href="&lt;%=fop.getSource()%&gt;"&gt;XML-File&lt;/A&gt;&lt;br&gt;
+        &lt;hr&gt;
+
+
+&lt;%
+        File dir = new File("/SYSTEM/PATH/xsl/pdf");
+        if (!dir.isDirectory()) throw new Exception("Error!");
+        File file = fop.process(dir);
+%&gt;
+        &lt;H2&gt;Ihr PDF-File&lt;/H2&gt;
+        &lt;p&gt;
+            &lt;A href="/SERVER/PATH/xsl/pdf/&lt;%=file.getName()%&gt;"&gt;PDF FILE&lt;/A&gt;
+        &lt;/p&gt;
+
+        &lt;/body&gt;
+&lt;/html&gt;
+</textarea>
+
+<textarea id="txtCPP" style="display:none">
+#include &lt;iostream&gt;
+using namespace std;
+
+int main ()
+{
+  cout &lt;&lt; " \"Hello World\"! ";     // prints Hello World!
+  cout &lt;&lt; "I'm a C++ program" &lt;&lt; '\''; // prints I'm a C++ program
+  return 0;
+}</textarea>
+
+<textarea id="txtXML" style="display:none">&lt;?xml version="1.0" encoding="ISO-8859-1" ?&gt;
+&lt;!DOCTYPE scenario SYSTEM "sipp.dtd"&gt;
+
+&lt;scenario name="registration and simple IMS session setup, client side"&gt;
+	&lt;send retrans="500"&gt;
+	&lt;![CDATA[
+	REGISTER sip:open-ims.test SIP/2.0
+	Via: SIP/2.0/[transport] [local_ip]:[local_port];branch=[branch]
+	Max-Forwards: 20
+	From: "bob" &lt;sip:bob@open-ims.test&gt;;tag=[call_number]
+	To: "bob" &lt;sip:bob@open-ims.test&gt;
+	P-Access-Network-Info: 3GPP-UTRAN-TDD;utran-cell-id-3gpp=C359A3913B20E
+	Call-ID: reg///[call_id]
+	CSeq: 1 REGISTER
+	Contact: &lt;sip:bob@[local_ip]:[local_port]&gt;
+	Expires: 300
+	Content-Length: 0
+	User-Agent: Sipp v1.1-TLS, version 20061124
+	Authorization: Digest username="bob@open-ims.test", realm="open-ims.test"
+	Supported: path
+	]]&gt;
+	&lt;/send&gt;
+
+	&lt;!-- definition of the response time repartition table (unit is ms)   --&gt;
+	&lt;ResponseTimeRepartition value="10, 20"/&gt;
+		
+	&lt;!-- definition of the call length repartition table (unit is ms)     --&gt;
+	&lt;CallLengthRepartition value="10"/&gt;
+		
+&lt;/scenario&gt;
+</textarea>
+
+<textarea id="txtCSS" style="display:none">h1 { color: white; background-color: orange !important; }
+h2 { color: white; background-color: green !important; }
+body
+{
+	background-color:#d0e4fe;
+}
+h1
+{
+	color:orange;
+	text-align:center;
+}
+p
+{
+	font-family:"Times New Roman";
+	font-size:20px;
+}
+</textarea>
+
+<textarea id="txtHTML" style="display:none">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+&lt;head&gt;
+&lt;meta http-equiv="Content-Type" content="text/html; charset=utf-8" /&gt;
+&lt;title&gt;Samle&lt;/title&gt;
+
+&lt;style type="text/css"&gt;
+body { background:#000033 }
+h1 { font-family:Georgia, "Times New Roman", Times, serif; font-size:12px; }
+ul li
+{
+	padding-left:10px
+}
+&lt;/style&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+	&lt;table lang="af" dir="rtl" &gt;
+    	&lt;tr&gt;
+        	&lt;td&gt;No,&lt;/td&gt;
+            &lt;td&gt;Size&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+        	&lt;td&gt;1&lt;/td&gt;
+            &lt;td&gt;59&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/table&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</textarea>
+<br />
+
+<div id="flashContent" style="width:100%">
+</div>   
+
+
+<script language="javascript" type="text/javascript">
+function onEditorLoaded(){
+	// call setText to load content into editor
+	document.getElementById('ctlFlash').setText( document.getElementById('txtASPX').value );
+	
+	// enable the buttons
+	var buttons = document.getElementsByTagName('input');
+	for( var i = 0; i < buttons.length; i++){
+		if( buttons[i].type == 'button' )
+			buttons[i].disabled = false;
+	}
+}
+
+
+// initialize with parameters
+var flashvars = {
+	// indicate the parser, aspx / csharp / javascript / css / vbscript / html / xml / php / phpcode
+	parser: "aspx",
+	
+	// set the editor to read-only mode
+	readOnly: false,	
+
+	// the editor detects client installed fonts and use preferred fonts if installed.
+	// NOTE: the charactor '|' is required at the begin and end of the list
+	preferredFonts : "|Consolas|Courier New|Courier|Arial|Tahoma|",
+
+	// indicate the callback function so that we can load the content into editor once it is initialized.
+	onload : "onEditorLoaded"		
+};
+
+// flash player parameters, you can find more information at: http://code.google.com/p/swfobject/wiki/documentation
+var params = { menu: "false", /* wmode : "transparent", */allowscriptaccess : "always" };
+
+// define the id of the flash control, we need the id in javascript interaction 
+var attributes = { id: "ctlFlash", name: "ctlFlash" };
+
+// embed the flash with size, more information can be found at: http://code.google.com/p/swfobject/wiki/documentation
+swfobject.embedSWF("CodeHighlightEditor.swf?now=" + (new Date()).getTime(), "flashContent", "90%", "400", "10.0.0", "expressInstall.swf", flashvars, params, attributes);
+
+
+</script>
+   
+<hr />
+<h2>API Test</h2>
+
+
+
+
+
+<input type="button" value="setReadOnly(true)" disabled="false" onclick="document.getElementById('ctlFlash').setReadOnly(true)" />
+
+<input type="button" value="setReadOnly(false)" disabled="false" onclick="document.getElementById('ctlFlash').setReadOnly(false)" />
+
+<input type="button" value="getText()" disabled="false" onclick="alert(document.getElementById('ctlFlash').getText())" />
+
+</body>
+</html>

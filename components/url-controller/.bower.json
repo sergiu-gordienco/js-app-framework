@@ -1,0 +1,13 @@
+{
+  "name": "url-controller",
+  "homepage": "https://github.com/sergiu-gordienco/url-controller",
+  "_release": "d7306281ad",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "d7306281ad47336d4ca8607f785e6854f1a12d51"
+  },
+  "_source": "https://github.com/sergiu-gordienco/url-controller.git",
+  "_target": "*",
+  "_originalSource": "https://github.com/sergiu-gordienco/url-controller.git"
+}

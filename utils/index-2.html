@@ -1,0 +1,23 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<script type="text/javascript" src="../m_urlcapture/m_urlcapture.js"></script>
+	<script type="text/javascript" src="../m_urlload/m_urlload.js"></script>
+	<script type="text/javascript" src="../m_framework/m_framework.js"></script>
+</head>
+<body><div id="container"></div>
+<script type="text/javascript">
+	var app	= new m_framework();
+	
+	app.templates_dir	= 'js/templates/';
+	app.templates_extension	= '.tpl';
+	
+	app.controller_dir	= 'js/controllers/';
+	app.controller_extension	= '.js';
+	
+	app.controller.set("debug",true);
+	app.controller.start();
+</script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<script type="text/javascript" src="./components/url-controller/m_urlcapture.js"></script>
+	<script type="text/javascript" src="./m_framework.js"></script>
+	<style type="text/css">
+		html,body {
+			margin	: 0;
+			padding	: 0;
+			border	: 0;
+			font-size	: 12px;
+			cursor	: default;
+		}
+		table	{
+			font-size: 12px;
+		}
+	</style>
+</head>
+<body><div id="container"></div>
+<script type="text/javascript">
+	var app	= new m_framework();
+	
+	
+	app.templates_dir	= 'js/templates/';
+	app.templates_extension	= '.tpl';
+	
+	app.controller_dir	= 'js/controllers/';
+	app.controller_extension	= '.js';
+	
+	app.view_params.dir.data	= 'static-data/';
+	
+	
+	// enable no cache
+	app.controller.set("debug",true);
+	app.reset();
+	
+	app.controller.start();
+</script>
+</body>
+</html>

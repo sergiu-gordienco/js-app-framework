@@ -1,0 +1,324 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<meta name="author" content="Sergiu Gordienco Vasile">
+	<meta name="language" content="en" />
+	<meta name="copyright" content="cloudwebcode.com">
+	<title>First Page</title>
+<style type="text/css">
+html,body {
+	margin	: 0;
+	padding	: 0;
+	color		: #fff;
+	background	: #1EAEE3;
+}
+* {
+	margin	: 0;
+	padding	: 0;
+	font-size	: 11px;
+}
+
+table {
+	color		: #000;
+	background	: #E1E1E1;
+	margin	: 10px;
+	
+	border-radius		: 3px;
+	-o-border-radius	: 3px;
+	-ms-border-radius	: 3px;
+	-moz-border-radius	: 3px;
+	-webkit-border-radius	: 3px;
+}
+
+pre {
+	text-shadow	: 0 0 3px #555;
+	
+	border	: 1px solid #fff;
+	border-radius		: 3px;
+	-o-border-radius	: 3px;
+	-ms-border-radius	: 3px;
+	-moz-border-radius	: 3px;
+	-webkit-border-radius	: 3px;
+	
+	display	: block;
+	height	: 200px;
+	
+	overflow-y	: auto;
+	
+	margin	: 2px;
+	
+	box-shadow		: 0 0 3px #1EAEE3;
+	-o-box-shadow		: 0 0 3px #1EAEE3;
+	-ms-box-shadow		: 0 0 3px #1EAEE3;
+	-moz-box-shadow		: 0 0 3px #1EAEE3;
+	-webkit-box-shadow	: 0 0 3px #1EAEE3;
+	
+	background		: #555;
+	color			: #fff;
+	
+	padding :5px; 
+}
+
+textarea {
+	text-shadow	: 0 0 3px #555;
+	
+	border	: 1px solid #1EAEE3;
+	border-radius		: 3px;
+	-o-border-radius	: 3px;
+	-ms-border-radius	: 3px;
+	-moz-border-radius	: 3px;
+	-webkit-border-radius	: 3px;
+	
+	display	: block;
+	height	: 200px;
+	
+	overflow-y	: auto;
+	
+	margin	: 2px;
+	
+	box-shadow		: 0 0 3px #1EAEE3;
+	-o-box-shadow		: 0 0 3px #1EAEE3;
+	-ms-box-shadow		: 0 0 3px #1EAEE3;
+	-moz-box-shadow		: 0 0 3px #1EAEE3;
+	-webkit-box-shadow	: 0 0 3px #1EAEE3;
+	
+	background		: #fff;
+	color			: #000;
+	
+	padding :5px; 
+}
+
+input {
+	text-shadow	: 0 0 3px #000;
+	
+	border	: 1px solid #fff;
+	border-radius		: 3px;
+	-o-border-radius	: 3px;
+	-ms-border-radius	: 3px;
+	-moz-border-radius	: 3px;
+	-webkit-border-radius	: 3px;
+	
+	height	: 40px;
+	
+	overflow-y	: auto;
+	
+	margin	: 5px;
+	font-size	: 12px;
+	font-weight	: bold;
+	
+	box-shadow		: 0 0 3px #1EAEE3;
+	-o-box-shadow		: 0 0 3px #1EAEE3;
+	-ms-box-shadow		: 0 0 3px #1EAEE3;
+	-moz-box-shadow		: 0 0 3px #1EAEE3;
+	-webkit-box-shadow	: 0 0 3px #1EAEE3;
+	
+	background		: #2EbEd3;
+	color			: #fff;
+	
+	padding : 5px 20px;
+	
+	cursor: pointer;
+}
+
+a {
+	color	: blue;
+	font-weight	: bold;
+}
+
+.top_table a,
+.top_table span {
+	color	: black;
+	padding	: 3px 10px;
+	text-shadow	: none;
+	text-decoration	: none;
+	background	: orange;
+	line-height	: 27px;
+	font-size	: 11px;
+}
+</style>
+</head>
+<body>
+<script type="text/javascript" src="m_urlcapture.js"></script>
+<script type="text/javascript">
+	var urlController	= new m_urlcapture();
+	
+		urlController.set("onUrlChange",{
+			logSpaceUpdate	: function(c,a,p,d){
+				var o = d.obj;
+				document.getElementById('testSpace').innerHTML = "URL History: "+o.get("urlHist").length+" urls\n\n"+o.get("urlHist").join("\n");
+			}
+		});
+	
+		urlController.start();
+	
+	
+</script>
+<center>
+<table cellspacing="10" cellpadding="0" width="900" height="200" class="top_table">
+<tr valign="top">
+	<td align="left">
+		<pre id="testSpace"></pre>
+		<div id="test_code" style="white-space: pre;"></div>
+	</td>
+	<td aign="left" width="1">
+		<textarea style="width:270px;" placeholder="Test JavaScript Code"></textarea>
+<script type="text/javascript" id="test_script">
+urlController.set("debug",false);
+
+
+// Adding some actions to controller
+urlController.set("actions",{ act: "add",
+	data : {
+		controller_1 : {
+			"_"  : function(c,a,p,d){
+				alert("You are Testing Controller ",c,"\n The default Action");
+			},
+			echo : function(c,a,p,d){
+				document.title = "Message Alert";
+				alert("Your message is: \n\n\t"+decodeURIComponent(p[0]));
+			},
+			setBG: function(c,a,p,d){
+				document.title	= "Setting a background Color";
+				var e;try { document.body.style.background	= (p[0] != "") ? p[0] : "#1EAEE3"; } catch(e) {
+					document.body.style.background	= "#1EAEE3";
+				};
+			}
+		}
+	}
+})
+
+
+document.getElementById("test_code").innerHTML	= "\
+<span onclick=\"alert(document.getElementById('test_script').text)\" style=\"color: #fff;background: #000;\">view test Code</span>\n\
+<a href=\"#!controller_1/echo/testMessage\">Test Message</a>\n\
+<span onclick=\"document.location.href=document.location.href.split('#')[0]+'#!controller_1/echo/'+encodeURIComponent(prompt('Your message','...'));\">Test with your Message</span>\n\
+<span onclick=\"document.location.href=document.location.href.split('#')[0]+'#!controller_1/setBG/'+encodeURIComponent(prompt('Write a color: ','...'));\">Set background Color</span>\n\
+<a href=\"m_urlcapture.js\" style=\"background:red;\" target=\"blank\">JavaScript Code: m_urlcapture.js</a>\
+";
+</script>
+<input type="button" value="Run Code" onclick="var t = this.parentNode.getElementsByTagName('textarea')[0];var e;try { eval(t.value) } catch ( e ) { alert( 'Error:\n' + e ) };">
+	</td>
+</tr>
+</table>
+<table width="400" height="1" style="width: 400px;">
+<tr valign="top">
+	<td align="center">
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-nd/3.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">m_urlcapture</span> by <span xmlns:cc="http://creativecommons.org/ns#" property="cc:attributionName">Sergiu Gordienco Vasile</span> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/">Creative Commons Attribution-NonCommercial-NoDerivs 3.0 Unported License</a>.<br />Based on a work at <a xmlns:dct="http://purl.org/dc/terms/" href="http://www.first-jump.com/parts/gadget/m_urlcapture/m_urlcapture.js" rel="dct:source">http://www.first-jump.com/parts/gadget/m_urlcapture/m_urlcapture.js</a>.<br />Permissions beyond the scope of this license may be available at <a xmlns:cc="http://creativecommons.org/ns#" href="http://www.first-jump.com/parts/gadget/m_urlcapture" rel="cc:morePermissions">http://www.first-jump.com/parts/gadget/m_urlcapture</a>.
+<pre style="height:auto;">
+// ┌───────────────────────────────────────────────────────────────────────────────────────────────┐ \\
+// │ m_urlcapture - JavaScript urlController                                                       │ \\
+// ├───────────────────────────────────────────────────────────────────────────────────────────────┤ \\
+// │ Copyright © 2011-2018 Sergiu Gordienco Vasile (http://first-jump.com)                         │ \\
+// ├───────────────────────────────────────────────────────────────────────────────────────────────┤ \\
+// │ Licensed under http://creativecommons.org/licenses/by-nc-nd/3.0/ license.                     │ \\
+// │ This work is licensed under the Creative Commons                                              │ \\
+// │ Attribution-NonCommercial-NoDerivs 3.0 Unported License.                                      │ \\
+// │ To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-nd/3.0/.      │ \\
+// └───────────────────────────────────────────────────────────────────────────────────────────────┘ \\
+</pre>
+	</td>
+</tr>
+</table>
+<pre style="color: #000; background: #fff; width: 800px;text-align:left;margin: 10px;height: 360px;">
+	<h1>Documentation for urlObj</h1>
+to create an urlController
+	var urlController	= new m_urlcapture();
+
+
+to init it type:
+	urlController.start();
+
+to stop it type:
+	urlController.stop();
+
+to set an Default action for url Change
+
+	urlController.set("ifNoAction",function(controller,action,param,data){
+		// data is an object .. ex: {url:"..string..",parts:[controller,action,param[0]...]}
+	})
+
+to enable/disable debug mode use ( default is disabled )
+
+	urlController.set("debug",true);
+
+to set default Controller Name
+	urlController.set("defController","public");
+
+to set default action name
+	urlController.set("defAction","exec");
+
+to get params from object
+
+	urlController.get("debug");		// to get debug state
+	urlController.get("defController");	// get default controller name
+	urlController.get("defAction");		// get default action name
+	urlController.get("urlHist");		// get History of URLS
+	urlController.get("ifNoAction");	// get function if no Action
+	
+	// geting id
+		var id = urlController.get("id");
+		
+		alert(window[id] == urlController) // it will return TRUE
+	
+	// geting an controller actions set
+		var controller_set = urlController("actions","controller_name");
+	
+	// geting an action function
+		var action_func = urlController("actions","controller_name","action_name");
+
+to clean actions list
+	urlController.set("actions",{act:"clean"});
+
+to clean actions from a specific controller
+
+	urlController.set("actions",{
+				act		: "del-controller"
+				controller	: "controller_name"
+			});
+
+to delete an action
+
+	urlController.set("actions",{
+				act		: "del-action",
+				controller	: "controller_name",
+				action		: "action_name"
+			});
+
+to add actions
+	urlController.set("actions",{
+				act	: "add",
+				data	: {
+					controller_name	: {
+						action_name	: function(){},
+						action_name_1	: function(){},
+						action_name_2	: function(){}
+					},
+					otherController	: {
+						// other actions
+					}
+				}
+			});
+
+updating function for onUrlChange and afterUrlChange
+
+urlController.set("onUrlChange",{
+	funct_1	: function(c,a,p,d){	// adding a function
+		...
+	},
+	funct_1	: null			// deleting a function
+})
+
+urlController.set("afterUrlChange",{
+	... the same as for onUrlChange,
+	funct_1	: function(c,a,p,d){	// adding a function
+		if(d.obj.onUrlDiff_noSkip) {	// controller is no found
+			d.obj.onUrlDiff_noSkip	= false; // disable default action
+		}
+	}
+})
+</pre>
+</center>
+</body>
+</html>
