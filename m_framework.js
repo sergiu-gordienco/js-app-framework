@@ -248,7 +248,7 @@ window.m_framework	= function(){
 			},
 			dirs	: {
 				reg	: /^\s*params\s*->\s*dir\s*->\s*([a-zA-Z0-9\_\-]+)\s*$/,
-				funct	: function(framework,match_arr,par,vars,tpl) {
+				funct	: function(framework,match_arr,par,vars,tpl,waiterState) {
 					if(match_arr[1] in framework.view_params.dir)
 						return framework.view_params.dir[match_arr[1]];
 					return '';
@@ -256,7 +256,7 @@ window.m_framework	= function(){
 			},
 			include_tpl	: {
 				reg	: /^\s*include\-tpl(\-\d+|)->\s*(.*)$/,
-				funct	: function(framework,match_arr,par,vars,tpl){
+				funct	: function(framework,match_arr,par,vars,tpl,waiterState){
 					var id	= 'replace-node-'+new Date().valueOf()+'-'+Math.floor(Math.random()*1000000000)+'-'+Math.floor(Math.random()*1000000000);
 					
 					var	e = 10;
@@ -264,7 +264,7 @@ window.m_framework	= function(){
 					if(parseInt(match_arr[1])){
 						e	= Math.abs(parseInt(match_arr[1]));
 					};
-					
+					waiterState.steps = waiterState.steps + 1;
 					framework.view(function(code,framework,sett,tpl,vars){
 						framework.waitUntil(function(v,app){
 							if(!app.framework.$('#'+v.id))	return true;
@@ -279,7 +279,9 @@ window.m_framework	= function(){
 								n = c[i].cloneNode(true);
 								if(n.nodeType == 3)try{
 									n.nodeValue	= framework.viewStr(n.nodeValue);
-								}catch(err){};
+								}catch(err){
+									console.warn(err);
+								};
 								p.insertBefore(n, r)
 							}
 							p.removeChild(r);
@@ -299,13 +301,15 @@ window.m_framework	= function(){
 					},match_arr[2],vars,{
 						id	: id,
 						expire	: new Date().valueOf()+(e*1000)
+					}).ready(function () {
+						waiterState.steps	= waiterState.steps - 1;
 					});
 					return '<input type="hidden" id="'+id+'" value="'+match_arr[2]+'">';
 				}
 			},
 			use_local	: {
 				reg	: /^\s*use\s*->(css|js|less)->\s*(.*)/,
-				funct	: function(framework,match_arr,par,vars,tpl) {
+				funct	: function(framework,match_arr,par,vars,tpl,waiterState) {
 					var id	= match_arr[1]+'__'+match_arr[2].replace(/[^A-Za-z0-9\-\_]/gi,'_-_');
 					if(!framework.$('#'+id)) {
 						var prefix	= '';
@@ -318,21 +322,75 @@ window.m_framework	= function(){
 						) prefix	= framework.view_params.dir.data;
 						switch(match_arr[1]){
 							case 'css'	:
+								waiterState.steps	= waiterState.steps + 1;
+								var userAgent = navigator.userAgent,
+									iChromeBrowser = /CriOS|Chrome/.test(userAgent),
+									isAndroidBrowser = /Mozilla\/5.0/.test(userAgent) && /Android/.test(userAgent) && /AppleWebKit/.test(userAgent) && !iChromeBrowser;
+
 								var e = document.createElement("link");
 								e.setAttribute("rel", "stylesheet");
 								e.setAttribute("type", "text/css");
-								e.setAttribute("href", prefix + match_arr[2] + framework.extension_suffix);
 								e.id	= id;
+								e.loaded	= false;
+								if (e.readyState){  //IE
+									e.onreadystatechange = function(){
+										if (e.readyState == "loaded" ||
+												e.readyState == "complete"){
+											e.onreadystatechange = null;
+											if (!e.loaded) {
+												e.loaded	= true;
+												waiterState.steps	= waiterState.steps - 1;
+											}
+										}
+									};
+								} else if (isAndroidBrowser || !("onload" in e)) {
+									if (!e.loaded) {
+										e.loaded	= true;
+										waiterState.steps	= waiterState.steps - 1;
+									}
+								} else {
+									e.onload = function() {
+										if (!e.loaded) {
+											e.loaded	= true;
+											waiterState.steps	= waiterState.steps - 1;
+										}
+									};
+								}
+
 								document.getElementsByTagName('head')[0].appendChild(e);
+								
+								setTimeout(function () {
+									if (!e.loaded) {
+										e.loaded	= true;
+										waiterState.steps	= waiterState.steps - 1;
+									}
+								}, 1000);
+
+								e.setAttribute("href", prefix + match_arr[2] + framework.extension_suffix);
 							break;
 							case 'less'	:
 								if('newLess' in window)
 								newLess(prefix + match_arr[2] + framework.extension_suffix,id);
 							break;
 							case 'js'	:
+								waiterState.steps	= waiterState.steps + 1;
 								var e = document.createElement('script');
 								e.id	= id;
 								e.type	= "text/javascript";
+
+								if (e.readyState){  //IE
+									e.onreadystatechange = function(){
+										if (e.readyState == "loaded" ||
+												e.readyState == "complete"){
+											waiterState.steps	= waiterState.steps - 1;
+										}
+									};
+								} else {  //Others
+									e.onload = function(){
+										waiterState.steps	= waiterState.steps - 1;
+									};
+								}
+
 								e.src	= prefix + match_arr[2] + framework.extension_suffix;
 								document.getElementsByTagName('head')[0].appendChild(e);
 							break;
@@ -343,7 +401,7 @@ window.m_framework	= function(){
 			}
 		}
 		
-		this.view_par	= function(par,vars,tpl){
+		this.view_par	= function(par,vars,tpl, waiterState){
 			var m;
 			if(m = par.match(/^\s*vars(\-[a-zA-Z0-9]+|)\s*->\s*([a-z0-9\_\-]+)\s*$/)) {
 				var f = m[1].subs(1,0);
@@ -357,17 +415,41 @@ window.m_framework	= function(){
 				if(typeof(this.view_params[i].funct) == "function") {
 					if('reg' in this.view_params[i])
 					if(m = par.match(this.view_params[i].reg)) {
-						return (this.view_params[i].funct)(this,m,par,vars,tpl);
+						return (this.view_params[i].funct)(this,m,par,vars,tpl,waiterState);
 					}
 				}
 			}
 			
 			return null;
 		}
-		this.viewStr	= function(text,vars,tpl){
+		this.viewStr	= function(text, vars, tpl, callback){
 			if(!vars)	var vars	= {};
 			if(!tpl)	var tpl		= {text:text};
 			var replacers	= [];
+
+			var waiterState	= {
+				done	: false,
+				text	: ""
+			};
+
+			;((function () {
+				var data	= 0;
+				Object.defineProperty(waiterState, 'steps', {
+					get: function() { return data; },
+					set: function(val) {
+						if (val == 0 && !waiterState.done) {
+							waiterState.done	= true;
+							callback(waiterState.text);
+						}
+						data = val;
+					},
+					enumerable: true,
+					configurable: true
+				});
+			})());
+
+			waiterState.steps	= waiterState.steps + 1;
+
 			// {code}
 		/*	if(this.controller.get("debug")) {
 				console.log('Parse Template Code\n', { text : text });
@@ -388,11 +470,11 @@ window.m_framework	= function(){
 		*/
 			var framework	= this;
 			text = text.replace(/\{([^\{]*?)\}/g,function (match, p1, offset, string) {
-				var val	= framework.view_par(p1,vars,tpl);
+				var val	= framework.view_par(p1,vars,tpl, waiterState);
 				return ( ( val === null ) ? '{'+p1+'}' : val );
 			});
 			text = text.replace(/\{([^\{]*?)\}/g,function (match, p1, offset, string) {
-				var val	= framework.view_par(p1,vars,tpl);
+				var val	= framework.view_par(p1,vars,tpl, waiterState);
 				return ( ( val === null ) ? '{'+p1+'}' : val );
 			});
 
@@ -443,7 +525,10 @@ window.m_framework	= function(){
 		/*	if(this.controller.get("debug")){
 				console.log('Parsed Template\n', { text : text });
 			}
-		*/	return text;
+		*/
+			waiterState.text	= text;
+			waiterState.steps	= waiterState.steps - 1;
+			return text;
 		}
 		
 		this.view	= function(destination,tpl,vars,sett){
@@ -469,22 +554,64 @@ window.m_framework	= function(){
 			if(this.controller.get("debug")){
 				console.log("Render Template ",tpl);
 			}
-			text	= this.viewStr(tpl.text,vars,tpl);
-			if(this.controller.get("debug")){
-				console.log("Load Template into",destination,'\n\tText: ',{text:text},'\n\tTemplate: ',tpl);
-			}
-			if(typeof(destination) == "function")	return (destination)(text,this,sett,tpl,vars);
-			
-			if(typeof(destination) == "string") {
-				destination	= this.$(destination);
-			} else {
-				/* no change */
+
+			var callbackStats	= {
+				done	: false,
+				text	: "",
+				ready	: []
 			};
-			
-			if(destination){
-				if('innerHTML' in destination)	destination.innerHTML	= text;
-				if('value' in destination)	destination.value	= text;
+			var parent = this;
+			var callback	= function (text) {
+
+				callbackStats.done	= true;
+				callbackStats.text	= text;
+				var stack	= callbackStats.ready;
+				callbackStats.ready	= [];
+				
+				if(parent.controller.get("debug")){
+					console.log("Load Template into",destination,'\n\tText: ',{text:text},'\n\tTemplate: ',tpl);
+				}
+				if(typeof(destination) == "function")	return (destination)(text,parent,sett,tpl,vars);
+				
+				if(typeof(destination) == "string") {
+					destination	= parent.$(destination);
+				} else {
+					/* no change */
+				};
+				
+				if(destination){
+					if('innerHTML' in destination)	destination.innerHTML	= text;
+					if('value' in destination)	destination.value	= text;
+				}
+
+				stack.forEach(function (f) {
+					var err;
+					try {
+						f(callbackStats.text);
+					} catch (err) {
+						console.error(err);
+					}
+				});
+			};
+
+			this.viewStr(tpl.text,vars,tpl, callback);
+
+			var methods = {
+				ready	: function (f) {
+					if (callbackStats.done) {
+						var err;
+						try {
+							f(callbackStats.text);
+						} catch (err) {
+							console.error(err);
+						}
+					} else {
+						callbackStats.ready.push(f);
+					}
+					return methods;
+				}
 			}
+			return methods;
 		}
 		
 		this.reset	= function(){

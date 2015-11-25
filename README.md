@@ -1,4 +1,48 @@
-# Template commands Commands
+## Controller Commands
+
+### Framework
+
+Initing application
+
+```js
+	var app	= new m_framework();
+	app.templates_dir	= 'app/templates/';
+	app.templates_extension	= '.tpl';
+	app.controller_dir	= 'app/controllers/';
+	app.controller_extension	= '.js';
+	app.view_params.dir.data	= './';
+	/**
+	 * enable debug mode
+	 *     cache will be disabled
+	 */
+	app.controller.set("debug",true);
+	app.reset();
+	app.start();
+	app.controller.start();
+```
+
+* app.exec
+* app.strFuncts
+* app.framework
+* app.controller
+* app.skipExec
+* app.execUrl
+* app.templates_list
+* app.templates_load
+* app.view
+* app.view_getUrl
+* app.view_params
+* app.viewStr
+* app.reset
+* app.$
+
+
+### Url Controller
+
+More info at: [documentation on GitHub](https://github.com/sergiu-gordienco/url-controller)
+
+
+## Template commands Commands
 ```
 	// avaible functions
 	xml2str,dec2hex,hex2dec,hex2str,str2hex,htmlchars,escape,unescape,encodeURIComponent,decodeURIComponent
